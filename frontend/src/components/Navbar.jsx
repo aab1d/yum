@@ -1,23 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
-  const [user, setUser] = useState(() => localStorage.getItem("user"));
   const navigate = useNavigate();
-  useEffect(() => {
-    const syncUser = () => setUser(localStorage.getItem("user"));
-
-    window.addEventListener("authChange", syncUser);
-    window.addEventListener("storage", syncUser);
-
-    return () => {
-      window.removeEventListener("authChange", syncUser);
-      window.removeEventListener("storage", syncUser);
-    };
-  }, []);
-
+  const { logout, user } = useAuth();
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    logout();
     navigate("/login");
   };
   return (
@@ -28,9 +15,13 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-3">
-          {user && console.log(user)}
           {user ? (
-            `Hi, ${user}`
+            <Link
+              to={"/profile"}
+              className="bg-secondary rounded-md text-base px-3 py-2 text-text-on-primary font-semibold hover:bg-secondary-hover transition-colors"
+            >
+              {user.firstName}
+            </Link>
           ) : (
             <Link
               to="/signup"

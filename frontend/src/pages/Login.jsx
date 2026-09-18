@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { login } from "../api/auth.api";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,11 +16,7 @@ const Login = () => {
     const user = { email, password };
 
     try {
-      const data = await login(user);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", data.user?.firstName);
-      console.log(JSON.stringify(data.user));
-      window.dispatchEvent(new Event("authChange"));
+      await login(user);
       navigate("/");
     } catch (err) {
       console.log("caught error:", err, err.message);

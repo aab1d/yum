@@ -17,7 +17,8 @@
 
   /* Surfaces */
   --color-background: white;
-  --color-surface: var(--color-rose-50);
+  --color-surface: var(--color-rose-100);
+  --color-surface-2: var(--color-teal-100);
   --color-border: var(--color-stone-300);
 
   /* States */

@@ -11,12 +11,36 @@ import {
   checkDuplicate,
   checkDuplicateOnEdit,
 } from "../middlewares/checkDuplicateRestaurant.js";
+import auth from "../middlewares/auth.js";
+import requireRole from "../middlewares/requireRole.js";
+import validateOwner from "../middlewares/validateOwner.js";
 const router = Router();
 
 router.get("/all", getAllRestaurants);
-router.post("/", validateRestaurant, checkDuplicate, createRestaurant);
+router.post(
+  "/",
+  auth,
+  requireRole("restaurant"),
+  validateRestaurant,
+  checkDuplicate,
+  createRestaurant,
+);
 router.get("/:id", getRestaurant);
-router.put("/:id", validateRestaurant, checkDuplicateOnEdit, editRestaurant);
-router.delete("/:id", deleteRestaurant);
+router.put(
+  "/:id",
+  auth,
+  requireRole("restaurant"),
+  validateOwner,
+  validateRestaurant,
+  checkDuplicateOnEdit,
+  editRestaurant,
+);
+router.delete(
+  "/:id",
+  auth,
+  requireRole("restaurant"),
+  validateOwner,
+  deleteRestaurant,
+);
 
 export default router;

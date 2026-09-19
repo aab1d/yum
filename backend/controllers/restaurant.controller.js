@@ -11,11 +11,11 @@ export const getAllRestaurants = async (req, res) => {
 };
 
 export const createRestaurant = async (req, res) => {
-  const { name, ownerId, address, image, description } = req.body;
+  const { name, address, image, description } = req.body;
   try {
     await restaurantModel.create({
       name,
-      ownerId: req.user._id,
+      ownerId: req.user.id,
       address,
       image: image || "",
       description: description || "",

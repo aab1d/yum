@@ -2,11 +2,26 @@ import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export const getRestaurantList = async () => {
+export const getAllRestaurants = async () => {
   try {
-    const data = await axios.get(`${apiUrl}/restaurant/all`);
-    return data;
+    const response = await axios.get(`${apiUrl}/restaurant/all`);
+    return response.data;
   } catch (err) {
-    console.log("failed to fetch restaurants", err);
+    console.log("Failed to fetch restaurants", err);
+    throw err;
+  }
+};
+
+export const createRestaurant = async (token, restaurant) => {
+  try {
+    const response = await axios.post(`${apiUrl}/restaurant`, restaurant, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log("Failed to create restaurant", err);
+    throw err;
   }
 };

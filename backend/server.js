@@ -4,6 +4,8 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoute from "./routes/auth.routes.js";
 import restaurantRoute from "./routes/restaurant.routes.js";
+import notFound from "./middlewares/notFound.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const PORT = process.env.PORT;
 const app = e();
@@ -13,6 +15,9 @@ app.use(cors());
 
 app.use("/auth", authRoute);
 app.use("/restaurant", restaurantRoute);
+
+app.use(notFound);
+app.use(errorHandler);
 
 connectDB().then(() => {
   app.listen(PORT, () => {

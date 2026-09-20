@@ -21,7 +21,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           {user && user.role == "restaurant" && (
             <Link
-              to={"/create-restaurant"}
+              to={"/restaurant/create"}
               className="rounded-md text-base px-3 py-2 text-secondary font-semibold hover:text-secondary-hover hover:bg-surface-2"
             >
               Add Restaurant

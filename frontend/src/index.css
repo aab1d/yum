@@ -7,7 +7,7 @@
   --color-primary-active: var(--color-rose-800);
   --color-secondary: var(--color-teal-600);
   --color-secondary-hover: var(--color-teal-700);
-  --color-secondary-hover: var(--color-teal-800);
+  --color-secondary-active: var(--color-teal-800);
 
   /* Text */
   --color-text: black;

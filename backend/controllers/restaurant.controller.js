@@ -31,7 +31,7 @@ export const getRestaurant = async (req, res) => {
   try {
     const data = await restaurantModel
       .findById(req.params.id)
-      .populate("ownerId", "name email");
+      .populate("ownerId", "firstName lastName email");
     if (!data) {
       return res.status(404).json({ message: "Restaurant not found" });
     }

@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Restaurant = () => {
   const { id } = useParams();
-  const [restaurant, setRestaurant] = useState({});
+  const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -44,10 +44,10 @@ const Restaurant = () => {
   const isOwner = user && restaurant.ownerId?._id === user.id;
 
   return (
-    <div
-      className={`min-h-screen px-6 y-8 ${isOwner ? "bg-surface-2" : "bg-background"}`}
-    >
-      <div className="max-w-xl mx-auto bg-surface border border-border rounded-lg overflow-hidden">
+    <div className={`min-h-screen px-6 py-8 `}>
+      <div
+        className={`max-w-xl mx-auto bg-surface border border-border rounded-lg overflow-hidden ${isOwner ? "bg-surface-2" : "bg-background"}`}
+      >
         {restaurant.image ? (
           <img
             src={restaurant.image}
@@ -59,31 +59,33 @@ const Restaurant = () => {
             No image
           </div>
         )}
-      </div>
-      <div>
-        <h2>{restaurant.name}</h2>
-      </div>
-      <div>
-        <span>Name:</span>
-        <span>{restaurant.name}</span>
-      </div>
-      <div>
-        <span>Address:</span>
-        <span>{restaurant.address}</span>
-      </div>
-      <div>
-        <span>Description:</span>
-        <span>{restaurant.description}</span>
-      </div>
-      <div>
-        <span>Owner:</span>
-        <span>
-          {restaurant.ownerId?.firstName} {restaurant.ownerId?.lastName}
-        </span>
-      </div>
-      <div>
-        <span>Owner email:</span>
-        <span>{restaurant.ownerId?.email}</span>
+
+        <div className="p-6 flex flex-col gap-3">
+          <div className="flex items-start justify-between">
+            <h2 className="text-2xl font-bold text-text">{restaurant.name}</h2>
+            {isOwner && (
+              <div className="flex gap-2">
+                <button className="px-3 py-1.5 text-sm rounded-md bg-secondary text-text-on-primary font-semibold hover:bg-secondary-hover transition-colors cursor-pointer">
+                  Edit
+                </button>
+                <button className="px-3 py-1.5 text-sm rounded-md bg-primary text-text-on-primary font-semibold hover:bg-primary-hover transition-colors cursor-pointer">
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+
+          <p className="text-text-muted">{restaurant.address}</p>
+          <p className="text-text">{restaurant.description}</p>
+
+          <div className="border-t border-border pt-3 mt-2 text-sm text-text-muted">
+            <p>
+              Owner: {restaurant.ownerId?.firstName}{" "}
+              {restaurant.ownerId?.lastName}
+            </p>
+            <p>Contact: {restaurant.ownerId?.email}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

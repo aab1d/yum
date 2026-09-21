@@ -31,7 +31,7 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-3 bg-background py-5 px-6 rounded-lg border border-border w-full max-w-lg"
       >
-        <h2 className="text-2xl font-bold text-text-primary mb-3">Log In</h2>
+        <h2 className="text-2xl font-bold text-text mb-3">Log In</h2>
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="text-lg text-text font-semibold">
             Email
@@ -42,7 +42,7 @@ const Login = () => {
             value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
-            className="text-text-primary w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           />
         </div>
 
@@ -55,7 +55,7 @@ const Login = () => {
             value={password}
             required
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           />
         </div>
         <button

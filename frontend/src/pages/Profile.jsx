@@ -6,12 +6,10 @@ const Profile = () => {
   const isRestaurant = user.role == "restaurant";
 
   return (
-    <div
-      className={`min-h-screen px-6 py-8 ${user && user.role == "restaurant" ? "bg-surface-2" : "bg-surface"}`}
-    >
+    <div className="min-h-screen px-6 py-8 bg-background">
       <div className="max-w-md mx-auto bg-surface border border-border rounded-lg p-6">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-full bg-surface-2 flex items-center justify-center text-2xl font-bold text-text">
+          <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center text-2xl font-bold text-text">
             {user.firstName?.[0]?.toUpperCase()}
           </div>
           <div>

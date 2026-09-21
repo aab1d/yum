@@ -1,14 +1,15 @@
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { getRestaurant } from "../api/restaurant.api";
-import { useParams } from "react-router-dom";
+import { deleteRestaurant, getRestaurant } from "../api/restaurant.api";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Restaurant = () => {
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -43,11 +44,27 @@ const Restaurant = () => {
 
   const isOwner = user && restaurant.ownerId?._id === user.id;
 
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delet this restaurant?"))
+      return;
+    setLoading(true);
+    try {
+      await deleteRestaurant(token, id);
+      navigate("/home");
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to delete restaurant",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className={`min-h-screen px-6 py-8 `}>
-      <div
-        className={`max-w-xl mx-auto bg-surface border border-border rounded-lg overflow-hidden ${isOwner ? "bg-surface-2" : "bg-background"}`}
-      >
+    <div className="min-h-screen px-6 py-6 bg-background">
+      <div className="max-w-xl mx-auto bg-surface border border-border rounded-lg overflow-hidden">
         {restaurant.image ? (
           <img
             src={restaurant.image}
@@ -65,10 +82,17 @@ const Restaurant = () => {
             <h2 className="text-2xl font-bold text-text">{restaurant.name}</h2>
             {isOwner && (
               <div className="flex gap-2">
-                <button className="px-3 py-1.5 text-sm rounded-md bg-secondary text-text-on-primary font-semibold hover:bg-secondary-hover transition-colors cursor-pointer">
+                <button
+                  onClick={() => navigate(`/restaurant/${id}/edit`)}
+                  className="px-3 py-1.5 text-sm rounded-md bg-secondary text-text-on-primary font-semibold hover:bg-secondary-hover transition-colors cursor-pointer"
+                >
                   Edit
                 </button>
-                <button className="px-3 py-1.5 text-sm rounded-md bg-primary text-text-on-primary font-semibold hover:bg-primary-hover transition-colors cursor-pointer">
+                <button
+                  onClick={handleDelete}
+                  disabled={loading}
+                  className="px-3 py-1.5 text-sm rounded-md bg-primary text-text-on-primary font-semibold hover:bg-primary-hover transition-colors cursor-pointer"
+                >
                   Delete
                 </button>
               </div>

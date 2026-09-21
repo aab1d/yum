@@ -41,7 +41,7 @@ const Signup = () => {
         onSubmit={handleSubmit}
         className="flex flex-col gap-2 bg-background py-5 px-6 mt-2 rounded-lg border border-border w-full max-w-lg"
       >
-        <h2 className="text-2xl font-bold text-text-primary mb-3">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-text mb-3">Sign Up</h2>
         <div className="flex gap-1">
           <div className="flex flex-col flex-1 min-w-0">
             <label
@@ -57,7 +57,7 @@ const Signup = () => {
               required
               value={user.firstName}
               onChange={handleChange}
-              className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+              className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
             />
           </div>
           <div className="flex flex-col flex-1 min-w-0">
@@ -74,7 +74,7 @@ const Signup = () => {
               required
               value={user.lastName}
               onChange={handleChange}
-              className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+              className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
             />
           </div>
         </div>
@@ -89,7 +89,7 @@ const Signup = () => {
             required
             value={user.email}
             onChange={handleChange}
-            className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           />
         </div>
         <div className="flex flex-col">
@@ -103,7 +103,7 @@ const Signup = () => {
             required
             value={user.password}
             onChange={handleChange}
-            className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           />
         </div>
         <div className="flex flex-col">
@@ -120,7 +120,7 @@ const Signup = () => {
             required
             value={user.mobileNumber}
             onChange={handleChange}
-            className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           />
         </div>
         <div className="flex flex-col">
@@ -133,7 +133,7 @@ const Signup = () => {
             required
             value={user.role}
             onChange={handleChange}
-            className="w-full bg-surface rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full bg-input rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           >
             <option value="" disabled>
               Select role

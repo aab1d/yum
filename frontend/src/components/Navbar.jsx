@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { User } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
   const navigate = useNavigate();
@@ -9,31 +8,40 @@ const Navbar = () => {
     navigate("/login");
   };
   return (
-    <nav className="bg-background border-b border-border px-4 py-3 sticky">
+    <nav className="bg-background border-b border-border px-4 py-1 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link
           to="/"
-          className={`text-3xl font-semibold ${user && user.role == "restaurant" ? "text-secondary" : "text-primary"}`}
+          className="text-3xl flex items-center justify-center gap-2 font-semibold text-primary"
         >
-          #YUM
+          <img src="../../public/hero-icon.svg" alt="#" className="h-8" />
+          <span>YUM</span>
         </Link>
 
         <div className="flex items-center gap-3">
           {user && user.role == "restaurant" && (
-            <Link
-              to={"/restaurant/create"}
-              className="rounded-md text-base px-3 py-2 text-secondary font-semibold hover:text-secondary-hover hover:bg-surface-2"
-            >
-              Add Restaurant
-            </Link>
+            <div>
+              <Link
+                to={"/restaurant/new"}
+                className="rounded-md text-base px-3 py-2 text-secondary font-semibold hover:text-secondary-hover hover:bg-surface-2"
+              >
+                Add Restaurant
+              </Link>
+              <Link
+                to={"restaurant/mine"}
+                className="rounded-md text-base px-3 py-2 text-secondary font-semibold hover:text-secondary-hover hover:bg-surface-2"
+              >
+                My Restaurants
+              </Link>
+            </div>
           )}
           {user ? (
             <Link
               to={"/profile"}
-              className="flex items-center gap-2 rounded-md text-base px-3 py-2 text-secondary font-semibold hover:text-secondary-hover hover:bg-surface-2"
+              className="flex items-center gap-2 rounded-md text-base px-3 py-1 text-text font-semibold hover:bg-surface"
             >
-              <div className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center">
-                <User className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center text-sm font-bold text-primary">
+                {user.firstName?.[0]?.toUpperCase()}
               </div>
               {user.firstName}
             </Link>

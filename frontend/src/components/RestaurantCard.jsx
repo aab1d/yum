@@ -7,7 +7,7 @@ const RestaurantCard = ({ restaurant }) => {
       onClick={() => {
         navigate(`/restaurant/${restaurant._id}`);
       }}
-      className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col gap-2 w-64 text-text cursor-pointer hover:shadow-md transition:shadow"
+      className="bg-surface border border-border rounded-lg overflow-hidden flex flex-col gap-2 w-64 text-text cursor-pointer hover:shadow-md transition-shadow"
     >
       {restaurant.image ? (
         <img

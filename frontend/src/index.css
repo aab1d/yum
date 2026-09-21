@@ -10,8 +10,8 @@
   --color-secondary-active: var(--color-teal-800);
 
   /* Text */
-  --color-text: black;
-  --color-text-muted: var(--color-stone-400);
+  --color-text: var(--color-stone-800);
+  --color-text-muted: var(--color-stone-500);
   --color-text-on-primary: white;
   --color-text-disabled: var(--color-stone-400);
 
@@ -19,9 +19,10 @@
   --color-background: white;
   --color-surface: var(--color-rose-100);
   --color-surface-2: var(--color-teal-100);
+  --color-input: var(--color-stone-100);
   --color-border: var(--color-stone-300);
 
   /* States */
   --color-disabled: var(--color-stone-200);
-  --color-focus-ring: var(--color-rose-400);
+  --color-focus-ring: var(--color-rose-300);
 }

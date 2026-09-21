@@ -35,3 +35,34 @@ export const createRestaurant = async (token, restaurant) => {
     throw err;
   }
 };
+export const editRestaurant = async (token, restaurant) => {
+  try {
+    const response = await axios.put(
+      `${apiUrl}/restaurant/${restaurant._id}`,
+      restaurant,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (err) {
+    console.log("Failed to edit restaurant", err);
+    throw err;
+  }
+};
+
+export const deleteRestaurant = async (token, id) => {
+  try {
+    const response = await axios.delete(`${apiUrl}/restaurant/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log("Failed to create restaurant", err);
+    throw err;
+  }
+};

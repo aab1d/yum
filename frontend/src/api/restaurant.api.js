@@ -62,7 +62,7 @@ export const deleteRestaurant = async (token, id) => {
     });
     return response.data;
   } catch (err) {
-    console.log("Failed to create restaurant", err);
+    console.log("Failed to delete restaurant", err);
     throw err;
   }
 };

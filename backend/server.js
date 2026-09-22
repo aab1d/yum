@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoute from "./routes/auth.routes.js";
 import restaurantRoute from "./routes/restaurant.routes.js";
+import foodRoute from "./routes/food.routes.js";
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use("/auth", authRoute);
 app.use("/restaurant", restaurantRoute);
+app.use("/food", foodRoute);
 
 app.use(notFound);
 app.use(errorHandler);

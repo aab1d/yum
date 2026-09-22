@@ -28,7 +28,7 @@ export const checkDuplicateOnEdit = async (req, res, next) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
   next();
 };

@@ -13,7 +13,7 @@ const EditRestaurant = () => {
   });
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const { token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,22 +21,26 @@ const EditRestaurant = () => {
       setLoading(true);
       try {
         const data = await getRestaurant(id);
+        if (data.ownerId?._id !== user?.id) {
+          toast.error("You don't have permission to edit this restaurant");
+          navigate(`/restaurant/${id}`);
+          return;
+        }
         setRestaurant((prev) => ({
           ...prev,
-          ...data,
           name: data.name ?? "",
           address: data.address ?? "",
           description: data.description ?? "",
           image: data.image ?? "",
         }));
       } catch (err) {
-        toast.err(err.message);
+        toast.error(err.response?.data?.message || "Failed to load restaurant");
       } finally {
         setLoading(false);
       }
     };
     fetchRestaurant();
-  }, [id, token]);
+  }, [id, user?.id, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +51,7 @@ const EditRestaurant = () => {
     setLoading(true);
     try {
       const { name, address, description, image } = restaurant;
-      await editRestaurant(token, {
+      await editRestaurant({
         _id: restaurant._id,
         name,
         address,

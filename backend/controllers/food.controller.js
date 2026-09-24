@@ -2,12 +2,31 @@ import foodModel from "../models/food.model.js";
 
 export const getAllFoods = async (req, res) => {
   try {
+    const { restaurantId, page, limit } = req.query;
     const filter = req.query.restaurantId
       ? { restaurantId: req.query.restaurantId }
       : {};
-    const data = await foodModel
+    const query = foodModel
       .find(filter)
       .populate("restaurantId", "name address");
+
+    if (page && limit) {
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const skip = (pageNum - 1) * limitNum;
+
+      const [data, total] = await Promise.all([
+        query.skip(skip).limit(limitNum),
+        foodModel.countDocuments(filter),
+      ]);
+
+      return res.send({
+        data,
+        currentPage: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+      });
+    }
+    const data = await query;
     res.send(data);
   } catch (err) {
     console.error(err);

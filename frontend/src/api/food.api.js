@@ -1,11 +1,15 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
-export const getAllFoods = async (restaurantId) => {
+export const getAllFoods = async (restaurantId, page, limit) => {
   try {
-    const response = await axios.get(`${apiUrl}/food/all`, {
-      params: restaurantId ? { restaurantId } : {},
+    const params = {};
+    if (restaurantId) params.restaurantId = restaurantId;
+    if (page && limit) {
+      params.page = page;
+      params.limit = limit;
+    }
+    const response = await axiosInstance.get(`/food/all`, {
+      params,
     });
     return response.data;
   } catch (err) {
@@ -16,7 +20,7 @@ export const getAllFoods = async (restaurantId) => {
 
 export const getFood = async (id) => {
   try {
-    const response = await axios.get(`${apiUrl}/food/${id}`);
+    const response = await axiosInstance.get(`/food/${id}`);
     return response.data;
   } catch (err) {
     console.log("Failed to fetch food item", err);
@@ -24,26 +28,18 @@ export const getFood = async (id) => {
   }
 };
 
-export const createFood = async (token, food) => {
+export const createFood = async (food) => {
   try {
-    const response = await axios.post(`${apiUrl}/food`, food, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.post(`/food`, food);
     return response.data;
   } catch (err) {
     console.log("Failed to create food item", err);
     throw err;
   }
 };
-export const editFood = async (token, food) => {
+export const editFood = async (food) => {
   try {
-    const response = await axios.put(`${apiUrl}/food/${food._id}`, food, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.put(`/food/${food._id}`, food);
     return response.data;
   } catch (err) {
     console.log("Failed to edit food item", err);
@@ -51,13 +47,9 @@ export const editFood = async (token, food) => {
   }
 };
 
-export const deleteFood = async (token, id) => {
+export const deleteFood = async (id) => {
   try {
-    const response = await axios.delete(`${apiUrl}/food/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.delete(`/food/${id}`);
     return response.data;
   } catch (err) {
     console.log("Failed to delete food item", err);

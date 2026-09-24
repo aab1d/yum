@@ -14,11 +14,25 @@ const Navbar = () => {
           to="/"
           className="text-3xl flex items-center justify-center gap-2 font-semibold text-primary"
         >
-          <img src="../../public/hero-icon.svg" alt="#" className="h-8" />
+          <img src="/hero-icon.svg" alt="#" className="h-8" />
           <span>YUM</span>
         </Link>
 
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <Link
+              to="/foods"
+              className="text-text font-medium hover:text-primary transition-colors"
+            >
+              Foods
+            </Link>
+            <Link
+              to="/restaurants"
+              className="text-text font-medium hover:text-primary transition-colors"
+            >
+              Restaurants
+            </Link>
+          </div>
           {user && user.role == "restaurant" && (
             <div>
               <Link
@@ -28,7 +42,7 @@ const Navbar = () => {
                 Add Restaurant
               </Link>
               <Link
-                to={"restaurant/mine"}
+                to={"/restaurant/mine"}
                 className="rounded-md text-base px-3 py-2 text-secondary font-semibold hover:text-secondary-hover hover:bg-surface-2"
               >
                 My Restaurants

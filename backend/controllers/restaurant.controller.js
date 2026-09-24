@@ -2,7 +2,28 @@ import restaurantModel from "../models/restaurant.model.js";
 
 export const getAllRestaurants = async (req, res) => {
   try {
-    const data = await restaurantModel.find().populate("ownerId", "name email");
+    const { page, limit } = req.query;
+    const query = restaurantModel
+      .find()
+      .populate("ownerId", "firstName lastName email");
+
+    if (page && limit) {
+      const pageNum = parseInt(page);
+      const limitNum = parseInt(limit);
+      const skip = (pageNum - 1) * limitNum;
+
+      const [data, total] = await Promise.all([
+        query.skip(skip).limit(limitNum),
+        restaurantModel.countDocuments(),
+      ]);
+
+      return res.send({
+        data,
+        currentPage: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+      });
+    }
+    const data = await query;
     res.send(data);
   } catch (err) {
     console.error(err);

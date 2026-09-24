@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createRestaurant } from "../api/restaurant.api";
-import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +11,7 @@ const CreateRestaurant = () => {
     image: "",
   });
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,7 +22,7 @@ const CreateRestaurant = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await createRestaurant(token, restaurant);
+      await createRestaurant(restaurant);
       toast.success("Restaurant added");
       navigate("/home");
     } catch (err) {

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createFood } from "../api/food.api";
 import { useAuth } from "../context/AuthContext";
+import { getRestaurant } from "../api/restaurant.api";
 
 const CreateFood = () => {
   const { restaurantId } = useParams();
@@ -14,18 +15,39 @@ const CreateFood = () => {
     restaurantId: restaurantId,
   });
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkOwnership = async () => {
+      try {
+        const restaurant = await getRestaurant(restaurantId);
+        if (restaurant.ownerId?._id !== user?.id) {
+          toast.error(
+            "You don't have permission to add items to this restaurant",
+          );
+          navigate(`/restaurant/${restaurantId}`);
+        }
+      } catch (err) {
+        toast.error(
+          err.response?.data?.message || "Failed to verify restaurant",
+        );
+        navigate(`/restaurant/${restaurantId}`);
+      }
+    };
+    checkOwnership();
+  }, [restaurantId, user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFood((prev) => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await createFood(token, food);
+      await createFood(food);
       toast.success("Food added");
       navigate(`/restaurant/${restaurantId}`);
     } catch (err) {

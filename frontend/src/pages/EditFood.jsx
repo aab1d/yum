@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { editFood, getFood } from "../api/food.api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { getRestaurant } from "../api/restaurant.api";
 
 const EditFood = () => {
   const { restaurantId, foodId } = useParams();
@@ -13,19 +14,27 @@ const EditFood = () => {
     description: "",
   });
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRestaurant = async () => {
+    const fetchFood = async () => {
       setLoading(true);
       try {
-        const data = await getFood(foodId);
+        const [foodData, restaurantData] = await Promise.all([
+          getFood(foodId),
+          getRestaurant(restaurantId),
+        ]);
+        if (restaurantData.ownerId?._id !== user?.id) {
+          toast.error("You don't have permission to edit this item");
+          navigate(`/restaurant/${restaurantId}`);
+          return;
+        }
         setFood({
-          name: data.name ?? "",
-          price: data.price ?? "",
-          description: data.description ?? "",
-          image: data.image ?? "",
+          name: foodData.name ?? "",
+          price: foodData.price ?? "",
+          description: foodData.description ?? "",
+          image: foodData.image ?? "",
         });
       } catch (err) {
         toast.error(err.response?.data?.message || "Failed to load food item");
@@ -33,8 +42,8 @@ const EditFood = () => {
         setLoading(false);
       }
     };
-    fetchRestaurant();
-  }, [foodId, token]);
+    fetchFood();
+  }, [foodId, restaurantId, user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +53,7 @@ const EditFood = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await editFood(token, { _id: foodId, ...food });
+      await editFood({ _id: foodId, ...food });
       toast.success("Food updated");
       navigate(`/restaurant/${restaurantId}`);
     } catch (err) {
@@ -94,7 +103,7 @@ const EditFood = () => {
           </label>
           <input
             type="url"
-            id="url"
+            id="image"
             name="image"
             value={food.image}
             onChange={handleChange}
